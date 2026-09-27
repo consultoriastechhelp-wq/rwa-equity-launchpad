@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  transpilePackages: [
+    '@solana/wallet-adapter-base',
+    '@solana/wallet-adapter-wallets',
+    '@ledgerhq/hw-transport',
+  ],
   webpack: (config, { isServer }) => {
     config.resolve.fallback = {
       fs: false,
@@ -17,12 +22,10 @@ const nextConfig: NextConfig = {
     };
 
     if (isServer) {
-      // Reemplazar @ledgerhq/hw-transport con false en el servidor para evitar que busque submódulos rotos
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        '@ledgerhq/hw-transport': false,
-        '@ledgerhq/hw-transport-webusb': false,
-      };
+      config.externals = [
+        ...(Array.isArray(config.externals) ? config.externals : [config.externals]),
+        '@ledgerhq/hw-transport',
+      ];
     }
 
     return config;
