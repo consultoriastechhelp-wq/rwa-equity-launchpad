@@ -4,13 +4,16 @@ import dynamic from 'next/dynamic';
 // @ts-ignore
 import '../styles/globals.css';
 
-// 1. Componente base de la aplicación con sus props normales
-function MainApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
-}
+// Importamos solo el contenedor de wallets sin Renderizado en Servidor (SSR)
+const ClientWalletProvider = dynamic(
+  () => import('../components/ClientWalletProvider'),
+  { ssr: false }
+);
 
-// 2. Exportar dinámicamente forzando que SSR sea falso
-// Esto evita que Ledger o los adaptadores de wallet ejecuten código en el servidor durante el build
-export default dynamic(() => Promise.resolve(MainApp), {
-  ssr: false,
-});
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <ClientWalletProvider>
+      <Component {...pageProps} />
+    </ClientWalletProvider>
+  );
+}
