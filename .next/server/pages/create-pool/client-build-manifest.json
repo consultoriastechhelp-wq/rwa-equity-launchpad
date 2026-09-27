@@ -1,0 +1,5 @@
+{
+  "/create-pool": [
+    "./static/chunks/pages/create-pool.js"
+  ]
+}

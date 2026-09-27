@@ -5,13 +5,10 @@
   "author": "Dann Wee <dann@raccoons.dev>",
   "license": "ISC",
   "scripts": {
-    "clean": "rm -rf node_modules .next .turbo",
-    "dev": "next dev --turbopack",
-    "build": "next build",
+    "dev": "next dev",
+    "build": "npx rimraf .next && next build",
     "start": "next start",
-    "lint": "next lint",
-    "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "lint": "next lint"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1100.0",
