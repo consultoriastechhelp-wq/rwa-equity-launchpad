@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import webpack from 'webpack';
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
@@ -8,11 +9,6 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  transpilePackages: [
-    '@solana/wallet-adapter-base',
-    '@solana/wallet-adapter-wallets',
-    '@ledgerhq/hw-transport',
-  ],
   webpack: (config, { isServer }) => {
     config.resolve.fallback = {
       fs: false,
@@ -22,10 +18,12 @@ const nextConfig: NextConfig = {
     };
 
     if (isServer) {
-      config.externals = [
-        ...(Array.isArray(config.externals) ? config.externals : [config.externals]),
-        '@ledgerhq/hw-transport',
-      ];
+      // Ignorar completamente los paquetes de Ledger en la compilación del servidor
+      config.plugins.push(
+        new webpack.IgnorePlugin({
+          resourceRegExp: /^@ledgerhq\//,
+        })
+      );
     }
 
     return config;
