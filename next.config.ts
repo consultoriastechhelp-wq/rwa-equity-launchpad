@@ -2,30 +2,25 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
-  swcMinify: true,
   eslint: {
     ignoreDuringBuilds: true,
   },
   typescript: {
     ignoreBuildErrors: true,
   },
-  webpack: (config, { isServer }) => {
+  // Decirle a Next.js que NO empaquete Ledger en el servidor Node
+  serverExternalPackages: [
+    '@ledgerhq/hw-transport',
+    '@ledgerhq/hw-transport-webusb',
+    '@ledgerhq/devices',
+  ],
+  webpack: (config) => {
     config.resolve.fallback = {
       fs: false,
       net: false,
       tls: false,
       crypto: false,
     };
-
-    if (isServer) {
-      config.externals = [
-        ...(config.externals || []),
-        '@ledgerhq/hw-transport',
-        '@ledgerhq/hw-transport-webusb',
-        '@ledgerhq/devices',
-      ];
-    }
-
     return config;
   },
 };
