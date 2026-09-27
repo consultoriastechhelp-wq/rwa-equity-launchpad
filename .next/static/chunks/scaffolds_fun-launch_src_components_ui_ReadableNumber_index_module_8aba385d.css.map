@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Maria1/Downloads/meteora-invent-main/meteora-invent-main/scaffolds/fun-launch/src/components/ui/ReadableNumber/index.module.css"],"sourcesContent":["@keyframes flash {\n  from {\n    background-color: rgb(var(--primary) / 0.5);\n  }\n  to {\n    background-color: inherit;\n  }\n}\n\n.flashBg {\n  animation: flash 1s ease-out forwards;\n}\n"],"names":[],"mappings":"AAAA;;;;;;;;;;AASA","debugId":null}}]
-}
