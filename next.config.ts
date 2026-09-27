@@ -8,19 +8,23 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Decirle a Next.js que NO empaquete Ledger en el servidor Node
-  serverExternalPackages: [
-    '@ledgerhq/hw-transport',
-    '@ledgerhq/hw-transport-webusb',
-    '@ledgerhq/devices',
-  ],
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     config.resolve.fallback = {
       fs: false,
       net: false,
       tls: false,
       crypto: false,
     };
+
+    if (isServer) {
+      // Reemplazar @ledgerhq/hw-transport con false en el servidor para evitar que busque submódulos rotos
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@ledgerhq/hw-transport': false,
+        '@ledgerhq/hw-transport-webusb': false,
+      };
+    }
+
     return config;
   },
 };
