@@ -1,11 +1,16 @@
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 
-// Importamos dinámicamente todo App sin SSR para que Node.js no ejecute Ledger en el build
-function App({ Component, pageProps }: AppProps) {
+// @ts-ignore
+import '../styles/globals.css';
+
+// 1. Componente base de la aplicación con sus props normales
+function MainApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;
 }
 
-export default dynamic(() => Promise.resolve(App), {
+// 2. Exportar dinámicamente forzando que SSR sea falso
+// Esto evita que Ledger o los adaptadores de wallet ejecuten código en el servidor durante el build
+export default dynamic(() => Promise.resolve(MainApp), {
   ssr: false,
 });
